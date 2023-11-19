@@ -46,15 +46,11 @@ public class ReservationController {
         reservationService.deleteReservation(id);
     }
 
-    @PostMapping("/reservations")
-    public ResponseEntity<Reservation> ajouterReservation(
-            @RequestParam("idChambre") long idChambre,
-            @RequestParam("cinEtudiant") long cinEtudiant) {
-
-            Reservation nouvelleReservation = reservationService.ajouterReservation(idChambre, cinEtudiant);
-            return new ResponseEntity<>(nouvelleReservation, HttpStatus.CREATED);
+    @PutMapping("/adduniversity-chambre-bloc/{idChambre}/{cinEtudiant}")
+    @ResponseBody
+    public void addReservationn(@PathVariable("idChambre")long idChambre, @PathVariable("cinEtudiant") long cinEtudiant){
+        reservationService.ajouterReservation(idChambre,cinEtudiant);
 
     }
-
 }
 

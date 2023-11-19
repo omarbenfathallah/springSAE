@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ReservationServiceImp implements ReservationService {
@@ -55,48 +52,31 @@ public class ReservationServiceImp implements ReservationService {
     }
 
     @Override
-    public Reservation ajouterReservation(long idChambre, long cinEtudiant) {
+    public void ajouterReservation(long idChambre, long cinEtudiant) {
         Chambre chambre = chambreRepository.findById(idChambre).orElse(null);
         Etudiant etudiant = etudiantRepository.findEtudiantByCin(cinEtudiant);
-
-        if (chambre == null || etudiant == null) {
-            throw new IllegalArgumentException("Chambre ou étudiant non trouvé");
-        }
-
-        if (!capaciteMax(chambre)) {
-            throw new IllegalArgumentException("La capacité maximale de la chambre a été atteinte");
-        }
-
-        Long numChambre = chambre.getNumeroChambre();
+        Long numChambre=chambre.getNumeroChambre();
         Bloc bloc = chambre.getBloc();
         String nomBloc = bloc.getNomBloc();
         Date today = new Date();
-
-        Reservation reservation = new Reservation();
-        String numReservation = numChambre + "-" + nomBloc + "-" + today.getTime();
-        reservation.setIdReservation(numReservation);
-        reservation.setEstValide(true);
-        reservation.setAnneeReservation(today);
-        reservation.getEtudiant().add(etudiant);
-
-        chambre.getReservations().add(reservation);
-        etudiant.getReservation().add(reservation);
-
-        reservationRepository.save(reservation);
-        chambreRepository.save(chambre);
-        etudiantRepository.save(etudiant);
-
-        return reservation;
+        if (!capaciteMax(chambre)){
+            Reservation Res = new Reservation();
+            String numReservation = numChambre + "-" + nomBloc + "-" + today;
+            Res.setIdReservation(numReservation);
+            Res.setEstValide(true);
+            Res.setAnneeReservation(today);
+            reservationRepository.save(Res);
+            etudiant.getReservation().add(Res);
+            etudiantRepository.save(etudiant);
+            chambre.getReservations().add(Res);
+            chambreRepository.save(chambre);
+        }else {
+            System.out.println("vous avez depassez la capacité");   }
     }
 
-    private boolean capaciteMax(Chambre chambre) {
-        int nombreReservationsParChambre = chambre.getReservations().size();
-        int capaciteMax = getCapaciteMaximaleSelonType(chambre.getTypeC());
 
-        return nombreReservationsParChambre < capaciteMax;
-    }
 
-    private int getCapaciteMaximaleSelonType(TypeChambre typeChambre) {
+    int getCapaciteMaximaleSelonType(TypeChambre typeChambre) {
         switch (typeChambre) {
             case SIMPLE:
                 return 1;
@@ -108,16 +88,126 @@ public class ReservationServiceImp implements ReservationService {
                 throw new IllegalArgumentException("Type de chambre non pris en charge : " + typeChambre);
         }
     }
-    boolean capaciteMaxs(Chambre chambre){
+    boolean capaciteMax(Chambre chambre){
         int nombreResParChambre=chambre.getReservations().size();
         System.out.println("le nombre par chambre est "+nombreResParChambre);
-        int capaciteMax= getCapaciteMaximaleSelonType(chambre.getTypeC());
         System.out.println("la capcité par chambre est "+getCapaciteMaximaleSelonType(chambre.getTypeC()));
-      //  int capaciteMax= getCapaciteMaximaleSelonType(chambre.getTypeC());
-        return nombreResParChambre<capaciteMax;
+        int capaciteMax= getCapaciteMaximaleSelonType(chambre.getTypeC());
+        return nombreResParChambre==capaciteMax;
     }
 
+
+
+    public Reservation annulerReservation(long cinEtudiant) {
+        Etudiant etudiant = etudiantRepository.findEtudiantByCin(cinEtudiant);
+        if (etudiant == null) {
+            throw new IllegalArgumentException("Étudiant non trouvé");
+        }
+
+        Set<Reservation> reservations = etudiant.getReservation();
+        if (reservations == null || reservations.isEmpty()) {
+            throw new IllegalArgumentException("Aucune réservation associée à cet étudiant");
+        }
+
+        Reservation reservation = reservations.iterator().next();
+        reservation.setEstValide(false);
+        reservation.setEtudiant(null);
+
+        Chambre chambre = chambreRepository.;
+        if (chambre != null) {
+            chambre.getReservations().remove(reservation);
+            chambre.setCapacite(chambre.getCapacite() + 1);
+            reservation.setChambre(null);
+        }
+
+        reservationRepository.save(reservation);
+        etudiant.setReservation(null); // Set the reservations to null on the etudiant entity
+        etudiantRepository.save(etudiant);
+        chambreRepository.save(chambre);
+
+        return reservation;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //
+    @Override
+    public Reservation ajouterReservation1(long idChambre, long cinEtudiant) {
+        Chambre chambre = chambreRepository.findById(idChambre).orElse(null);
+        Etudiant etudiant = etudiantRepository.findEtudiantByCin(cinEtudiant);
+
+        if (chambre == null || etudiant == null) {
+            throw new IllegalArgumentException("Chambre ou étudiant non trouvé");
+        }
+
+        if (capaciteMax(chambre)) {
+            Long numChambre = chambre.getNumeroChambre();
+            Bloc bloc = chambre.getBloc();
+            String nomBloc = bloc.getNomBloc();
+            Date today = new Date();
+            String numReservation = numChambre + "-" + nomBloc + "-" + today;
+            Reservation reservation = new Reservation();
+
+            reservation.setIdReservation(numReservation);
+            reservation.setEstValide(true);
+            reservation.setAnneeReservation(today);
+            reservation.setEtudiant(Set.of(etudiant));
+
+            etudiant.getReservation().add(reservation);
+            etudiantRepository.save(etudiant);
+            chambre.getReservations().add(reservation);
+            chambreRepository.save(chambre);
+        } else {
+            throw new IllegalArgumentException("La capacité maximale de la chambre a été atteinte");
+        }
+            return  null ;
+    }
+}
+//
+//
+//
+//    private boolean capaciteMax(Chambre chambre) {
+//        int nombreReservationsParChambre = chambre.getReservations().size();
+//        int capaciteMax = getCapaciteMaximaleSelonType(chambre.getTypeC());
+//        return nombreReservationsParChambre < capaciteMax;
+//    }
+//
+//    private int getCapaciteMaximaleSelonType(TypeChambre typeChambre) {
+//        switch (typeChambre) {
+//            case SIMPLE:
+//                return 1;
+//            case DOUBLE:
+//                return 2;
+//            case TRIPLE:
+//                return 3;
+//            default:
+//                throw new IllegalArgumentException("Type de chambre non pris en charge : " + typeChambre);
+//        }
+//    }
+//    boolean capaciteMaxs(Chambre chambre){
+//        int nombreResParChambre=chambre.getReservations().size();
+//        System.out.println("le nombre par chambre est "+nombreResParChambre);
+//        int capaciteMax= getCapaciteMaximaleSelonType(chambre.getTypeC());
+//        System.out.println("la capcité par chambre est "+getCapaciteMaximaleSelonType(chambre.getTypeC()));
+//      //  int capaciteMax= getCapaciteMaximaleSelonType(chambre.getTypeC());
+//        return nombreResParChambre<capaciteMax;
+//    }
+//
+//    }
 //        Chambre chambre = chambreRepository.findById(idChambre).orElse(null);
 //
 //        Etudiant etudiant = etudiantRepository.findEtudiantByCin(cinEtudiant);

@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface UniversiteRepository extends JpaRepository<Universite,Long> {
   //  @Query("select  u from Universite u where u.nomUniversite=:nom ")
     Universite  findByNomUniversite(String nomUniversite );
+
+    Universite findUniversiteByFoyer_NomFoyer(String nomf);
 }
