@@ -27,7 +27,7 @@ public class Etudiant {
 
     @JsonIgnore
     @JsonBackReference
-    @ManyToMany(mappedBy = "etudiant",cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Reservation> reservation;
 
 

@@ -23,7 +23,7 @@ public class Reservation {
     private boolean estValide;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy="reservation")
     @JsonManagedReference
     @ToString.Exclude
     private Set<Etudiant>etudiant;

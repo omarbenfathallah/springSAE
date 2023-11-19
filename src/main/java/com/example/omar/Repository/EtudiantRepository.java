@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface EtudiantRepository extends JpaRepository<Etudiant,Long> {
     Etudiant findEtudiantByCin(Long cin);
 
-    Etudiant findEtudiantByReservation(Long cin);
+
 }

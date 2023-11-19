@@ -97,7 +97,7 @@ public class ReservationServiceImp implements ReservationService {
     }
 
 
-
+@Override
     public Reservation annulerReservation(long cinEtudiant) {
         Etudiant etudiant = etudiantRepository.findEtudiantByCin(cinEtudiant);
         if (etudiant == null) {
@@ -113,17 +113,11 @@ public class ReservationServiceImp implements ReservationService {
         reservation.setEstValide(false);
         reservation.setEtudiant(null);
 
-        Chambre chambre = chambreRepository.;
-        if (chambre != null) {
-            chambre.getReservations().remove(reservation);
-            chambre.setCapacite(chambre.getCapacite() + 1);
-            reservation.setChambre(null);
-        }
 
         reservationRepository.save(reservation);
         etudiant.setReservation(null); // Set the reservations to null on the etudiant entity
         etudiantRepository.save(etudiant);
-        chambreRepository.save(chambre);
+
 
         return reservation;
     }
