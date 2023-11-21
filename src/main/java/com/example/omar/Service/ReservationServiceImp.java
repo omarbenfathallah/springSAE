@@ -106,7 +106,23 @@ public class ReservationServiceImp implements ReservationService {
 
     @Override
     public Reservation annulerReservation(long cinEtudiant) {
-      return null;
+            Etudiant etudiant = etudiantRepository.findEtudiantByCin(cinEtudiant);
+            Reservation reservation = reservationRepository.findDistinctFirstByEtudiant(etudiant);
+            Chambre chambre = chambreRepository.findChambreByReservations(reservation);
+            reservation.setEstValide(false);
+            Bloc bloc = chambre.getBloc();
+            String capaciteBlocString = bloc.getCapaciteBloc();
+            int capaciteBloc = Integer.parseInt(capaciteBlocString);
+// Effectuez la soustraction
+            capaciteBloc++;
+// Mettez à jour la capacité du bloc avec la nouvelle valeur convertie en chaîne
+            bloc.setCapaciteBloc(String.valueOf(capaciteBloc));
+            etudiant.setReservation(null);
+            chambre.setReservations((null));
+            chambreRepository.save(chambre);
+            reservationRepository.save(reservation);
+            etudiantRepository.save(etudiant);
+            return reservation;
     }
 
 }
