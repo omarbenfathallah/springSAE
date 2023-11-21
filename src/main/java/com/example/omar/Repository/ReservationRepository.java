@@ -1,5 +1,6 @@
 package com.example.omar.Repository;
 
+import com.example.omar.Entity.Etudiant;
 import com.example.omar.Entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,5 +15,5 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 //   @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Reservation r WHERE r.chambre.idChambre = :idChambre AND :etudiantId MEMBER OF r.etudiant")
 //   boolean existsByChambreIdChambreAndEtudiantIdEtudiant(@Param("idChambre") long idChambre, @Param("etudiantId") long etudiantId);
 
-
+    Reservation findDistinctFirstByEtudiant(Etudiant etudiant);
 }
