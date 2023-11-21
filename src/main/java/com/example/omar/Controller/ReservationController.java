@@ -46,11 +46,17 @@ public class ReservationController {
         reservationService.deleteReservation(id);
     }
 
-    @PutMapping("/adduniversity-chambre-bloc/{idChambre}/{cinEtudiant}")
+    @PutMapping("/reservations/{idChambre}/{cinEtudiant}")
     @ResponseBody
     public void addReservationn(@PathVariable("idChambre")long idChambre, @PathVariable("cinEtudiant") long cinEtudiant){
         reservationService.ajouterReservation(idChambre,cinEtudiant);
 
+    }
+    @PutMapping("/annulerRes/{cinEt}")
+    @ResponseBody
+    public Reservation annulerReservation(@PathVariable("cinEt") Long cinEt){
+        Reservation reservation = reservationService.annulerReservation(cinEt);
+        return reservation;
     }
 }
 
