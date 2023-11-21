@@ -13,7 +13,6 @@ public interface ReservationService {
      Reservation createReservation(Reservation reservation);
      Reservation updateReservation(Reservation  reservation,long id);
      void deleteReservation(long id);
-      Reservation ajouterReservation1 (long idChambre, long cinEtudiant) ;
       void ajouterReservation (long idChambre, long cinEtudiant) ;
       public Reservation annulerReservation(long cinEtudiant);
 }
