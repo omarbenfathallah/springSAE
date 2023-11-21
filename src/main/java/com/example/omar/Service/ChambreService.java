@@ -1,9 +1,11 @@
 package com.example.omar.Service;
 
 import com.example.omar.Entity.Chambre;
+import com.example.omar.Entity.Reservation;
 import com.example.omar.Entity.TypeChambre;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,5 +20,7 @@ public interface ChambreService {
      List<Chambre> getChambresParBlocEtType (long idBloc, TypeChambre typeC) ;
 
      List<Chambre> getChambreParBlocEtType (long idBloc, TypeChambre typeC) ;
+
+      List<Chambre> getChambresNonReserveesCetteAnnee(Date  reservation) ;
 
 }

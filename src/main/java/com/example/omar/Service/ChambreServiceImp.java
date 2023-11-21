@@ -1,15 +1,21 @@
 package com.example.omar.Service;
 
 import com.example.omar.Entity.Chambre;
+import com.example.omar.Entity.Reservation;
 import com.example.omar.Entity.TypeChambre;
 import com.example.omar.Entity.Universite;
 import com.example.omar.Repository.ChambreRepository;
+import com.example.omar.Repository.ReservationRepository;
 import com.example.omar.Repository.UniversiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ChambreServiceImp implements  ChambreService{
@@ -18,6 +24,8 @@ public class ChambreServiceImp implements  ChambreService{
 
     @Autowired
     private ChambreRepository chambreRepository;
+    @Autowired
+    ReservationRepository reservationRepository;
     public Chambre createChambre(Chambre chambre){
         return chambreRepository.save(chambre) ;
     }
@@ -60,5 +68,9 @@ public class ChambreServiceImp implements  ChambreService{
         return chambreRepository.findChambreByBlocIdAndTypeC(idBloc,typeC);
     }
 
+    @Override
+    public List<Chambre> getChambresNonReserveesCetteAnnee(Date date) {
+        return chambreRepository.findChambresNonReserveesPourAnnee(date);
+        }
 
 }

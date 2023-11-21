@@ -113,9 +113,7 @@ public class ReservationServiceImp implements ReservationService {
             Bloc bloc = chambre.getBloc();
             String capaciteBlocString = bloc.getCapaciteBloc();
             int capaciteBloc = Integer.parseInt(capaciteBlocString);
-// Effectuez la soustraction
             capaciteBloc++;
-// Mettez à jour la capacité du bloc avec la nouvelle valeur convertie en chaîne
             bloc.setCapaciteBloc(String.valueOf(capaciteBloc));
             etudiant.setReservation(null);
             chambre.setReservations((null));

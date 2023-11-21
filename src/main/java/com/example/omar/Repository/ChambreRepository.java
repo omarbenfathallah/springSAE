@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -23,5 +24,8 @@ public interface ChambreRepository extends JpaRepository<Chambre,Long> {
     List<Chambre> findChambreByBlocIdAndTypeC(@Param("blocId") Long blocId, @Param("typeChambre") TypeChambre typeChambre);
 
     Chambre findChambreByReservations(Reservation reservation);
+
+    @Query("SELECT c FROM Chambre c LEFT JOIN c.reservations r WHERE r.idReservation IS NULL OR r.anneeReservation != :annee")
+    List<Chambre> findChambresNonReserveesPourAnnee(@Param("annee") Date annee);
 
 }

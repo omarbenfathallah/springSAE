@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+import java.util.List;
+
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 //   @Query("SELECT COUNT(r) FROM Reservation r WHERE r.chambre.idChambre = :idChambre")
@@ -16,4 +19,8 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 //   boolean existsByChambreIdChambreAndEtudiantIdEtudiant(@Param("idChambre") long idChambre, @Param("etudiantId") long etudiantId);
 
     Reservation findDistinctFirstByEtudiant(Etudiant etudiant);
+
+//    @Query("SELECT c FROM Chambre c LEFT JOIN c.Reservation r WHERE r.idReservation IS NULL OR r.anneeUniversitaire != :annee")
+//    List<Reservation> getReservationByAnneeReservation(Date date);
+//
 }
