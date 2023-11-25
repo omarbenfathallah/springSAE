@@ -23,4 +23,5 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 //    @Query("SELECT c FROM Chambre c LEFT JOIN c.Reservation r WHERE r.idReservation IS NULL OR r.anneeUniversitaire != :annee")
 //    List<Reservation> getReservationByAnneeReservation(Date date);
 //
+
 }

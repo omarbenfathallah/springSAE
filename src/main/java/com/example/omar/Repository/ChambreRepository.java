@@ -25,7 +25,7 @@ public interface ChambreRepository extends JpaRepository<Chambre,Long> {
 
     Chambre findChambreByReservations(Reservation reservation);
 
-    @Query("SELECT c FROM Chambre c LEFT JOIN c.reservations r WHERE r.idReservation IS NULL OR r.anneeReservation != :annee")
+    @Query("SELECT c FROM Chambre c LEFT JOIN c.reservations r WHERE r.idReservation not like cast(year(current_date)as string)")
     List<Chambre> findChambresNonReserveesPourAnnee(@Param("annee") Date annee);
 
 }
