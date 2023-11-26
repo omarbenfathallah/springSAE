@@ -4,10 +4,12 @@ import com.example.omar.Entity.Reservation;
 import com.example.omar.Service.ReservationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +59,13 @@ public class ReservationController {
     public Reservation annulerReservation(@PathVariable("cinEt") Long cinEt){
         Reservation reservation = reservationService.annulerReservation(cinEt);
         return reservation;
+    }
+
+    @GetMapping("/byAcademicYearAndUniversity")
+    public List<Reservation> getReservationsByAcademicYearAndUniversity(
+            @RequestParam("academicYear") @DateTimeFormat(pattern = "yyyy-MM-dd") Date academicYear,
+            @RequestParam("universityName") String universityName) {
+        return reservationService.getReservationParAnneeUniversitaireEtNomUniversite(academicYear, universityName);
     }
 }
 

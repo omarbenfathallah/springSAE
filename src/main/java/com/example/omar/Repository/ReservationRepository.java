@@ -24,4 +24,21 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 //    List<Reservation> getReservationByAnneeReservation(Date date);
 //
 
+
+
+    @Query("SELECT r FROM Reservation r " +
+            "JOIN r.etudiant e " +
+            "JOIN e.reservation er " +
+            "JOIN er.chambre c " +
+            "JOIN c.bloc b " +
+            "JOIN b.foyer f " +
+            "JOIN f.universite u " +
+            "WHERE r.anneeReservation = :anneeUniversite " +
+            "AND u.nomUniversite = :nomUniversite")
+    List<Reservation> getReservationParAnneeUniversitaireEtNomUniversite(
+            @Param("anneeUniversite") Date anneeUniversite,
+            @Param("nomUniversite") String nomUniversite
+    );
+
+
 }
