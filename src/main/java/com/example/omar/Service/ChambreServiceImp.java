@@ -8,6 +8,7 @@ import com.example.omar.Repository.ChambreRepository;
 import com.example.omar.Repository.ReservationRepository;
 import com.example.omar.Repository.UniversiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -68,6 +69,7 @@ public class ChambreServiceImp implements  ChambreService{
         return chambreRepository.findChambreByBlocIdAndTypeC(idBloc,typeC);
     }
 
+    @Scheduled(cron = "0 0 0 1 * ?") // Exécutez la tâche tous les premiers jours de chaque mois
     @Override
     public List<Chambre> getChambresNonReserveesCetteAnnee(Date date) {
         return chambreRepository.findChambresNonReserveesPourAnnee(date);

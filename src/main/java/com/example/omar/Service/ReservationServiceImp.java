@@ -125,7 +125,7 @@ public class ReservationServiceImp implements ReservationService {
 
     @Override
     public List<Reservation> getReservationParAnneeUniversitaireEtNomUniversite(Date anneeUniversite, String nomUniversite) {
-        return reservationRepository.getReservationParAnneeUniversitaireEtNomUniversite(anneeUniversite,nomUniversite);
+        return null;
     }
 
 }
