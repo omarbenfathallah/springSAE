@@ -80,7 +80,7 @@ public class FoyerServiceImp implements FoyerService {
                     existingBloc.setFoyer(foyer);
                     blocs.add(existingBloc);
                 } else {
-                    logger.warn("Bloc with ID {} not found.", bloc.getBlocId());
+                    logger.error("Bloc with ID {} not found.", bloc.getBlocId());
                 }
             }
 
@@ -89,7 +89,7 @@ public class FoyerServiceImp implements FoyerService {
             logger.info("Foyer {} added and assigned to universite {}.", foyer, universite);
             return foyerRepository.save(foyer);
         } else {
-            logger.warn("Universite with ID {} not found.", idUniversite);
+            logger.error("Universite with ID {} not found.", idUniversite);
             return null; // Vous pouvez ajuster le comportement en conséquence
         }
     }
