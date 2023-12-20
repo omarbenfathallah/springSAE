@@ -23,4 +23,6 @@ public interface ChambreService {
 
       List<Chambre> getChambresNonReserveesCetteAnnee(Date  reservation) ;
 
+      List<Chambre> getChambreByAddressUniversite(String a);
+
 }

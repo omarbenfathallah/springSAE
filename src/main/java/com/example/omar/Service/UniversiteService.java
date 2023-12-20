@@ -1,6 +1,8 @@
 package com.example.omar.Service;
 
 import com.example.omar.Entity.Universite;
+
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,5 +19,7 @@ public interface UniversiteService {
 
     Universite desaffecterFoyerAUniversite(long idUniversite);
     Universite desaffecterFoyerAUniversite(long idFoyer, long idUniversitee);
+
+  //  @Query("select u from Universite u and   ")
 
 }

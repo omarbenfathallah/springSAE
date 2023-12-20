@@ -78,4 +78,9 @@ public class ChambreServiceImp implements ChambreService {
         logger.info("Getting non-reserved rooms for the year");
         return chambreRepository.findChambresNonReserveesPourAnnee(date);
     }
+
+    @Override
+    public List<Chambre> getChambreByAddressUniversite(String a) {
+        return chambreRepository.findByBloc_Foyer_Universite_Adresse(a);
+    }
 }

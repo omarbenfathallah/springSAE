@@ -15,6 +15,10 @@ import java.util.List;
 @Repository
 public interface ChambreRepository extends JpaRepository<Chambre,Long> {
     List<Chambre> findByBloc_Foyer_Universite_NomUniversite(String  nomU);
+
+    List<Chambre> findByBloc_Foyer_Universite_Adresse(String ad);
+
+
    // @Query("SELECT c from Chambre c where c.numeroChambre=:num")
     Chambre  findByNumeroChambre(Long  num);
     List<Chambre> findChambreByBloc_BlocIdAndTypeC(Long blocid , TypeChambre typeChambre);

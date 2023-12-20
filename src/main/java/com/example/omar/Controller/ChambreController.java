@@ -73,4 +73,9 @@ public class ChambreController {
         return new ResponseEntity<>(chambresNonReservees, HttpStatus.OK);
     }
 
+    @GetMapping("/adress/{aa}")
+    public  List<Chambre> getChambreAdressUniversite(@RequestParam String aa){
+        return  chambreService.getChambreByAddressUniversite(aa);
+    }
+
 }
